@@ -1,8 +1,14 @@
 import os
 import time
+
 # Project UltrasonicCap
 
-localDir = '/home/pi/UltrasonicCap/'
+# Pi
+# localDir = '/home/pi/UltrasonicCap/'
+
+# PC
+localDir = 'C:/_griffith/Robotics/UltrasonicCap'
+
 git = 'https://github.com/JamesSiebert/UltrasonicCap.git'
 push_and_pull = False
 
