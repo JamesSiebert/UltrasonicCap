@@ -110,7 +110,7 @@ def ping_all():
     dist_f = get_distance(rTrig, rEcho)
     dist_r = get_distance(rTrig, rEcho)
     dist_b = get_distance(rTrig, rEcho)
-    dist_l = get_distance(rTrig, rEcho)
+    dist_l = get_distance(lTrig, lEcho)
 
     play_sound('ping', dist_to_vol(dist_l), dist_to_vol(dist_r))
 
