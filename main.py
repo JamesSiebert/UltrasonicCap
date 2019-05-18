@@ -119,28 +119,28 @@ def ping_all():
     play_sound('ping', dist_to_vol(dist_l), dist_to_vol(dist_r))
 
 def check_inputs():
-global switch_active
+    global switch_active
 
-if switch_active:
-    if GPIO.input(switch1) == GPIO.HIGH:
-        switch_active = False
-        print("Switch 1 pressed - Capture Photo")
-        mylcd.lcd_display_string('Capture Photo', 4)
+    if switch_active:
+        if GPIO.input(switch1) == GPIO.HIGH:
+            switch_active = False
+            print("Switch 1 pressed - Capture Photo")
+            mylcd.lcd_display_string('Capture Photo', 4)
 
-        time.sleep(2)
+            time.sleep(2)
 
-        mylcd.lcd_display_string('      STANDBY       ', 4)
-        switch_active = True
+            mylcd.lcd_display_string('      STANDBY       ', 4)
+            switch_active = True
 
-    if GPIO.input(switch2) == GPIO.HIGH:
-        switch_active = False
-        print("Switch 2 pressed - Access Compass")
-        mylcd.lcd_display_string('Compass - N 11 deg', 4)
+        if GPIO.input(switch2) == GPIO.HIGH:
+            switch_active = False
+            print("Switch 2 pressed - Access Compass")
+            mylcd.lcd_display_string('Compass - N 11 deg', 4)
 
-        time.sleep(2)
+            time.sleep(2)
 
-        mylcd.lcd_display_string('      STANDBY       ', 4)
-        switch_active = True
+            mylcd.lcd_display_string('      STANDBY       ', 4)
+            switch_active = True
 
 
 
