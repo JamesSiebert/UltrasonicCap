@@ -4,6 +4,7 @@ import I2C_LCD_driver
 import RPi.GPIO as GPIO
 import time
 import pygame
+import os
 
 # Pi setup
 max_ping_dist = 200  # measured in cm
@@ -127,7 +128,7 @@ def check_inputs():
             print("Switch 1 pressed - Capture Photo")
             mylcd.lcd_display_string('Capture Photo', 4)
 
-            time.sleep(2)
+            os.system('fswebcam -r 1920x1080 -S 3 --jpeg 92 --save /home/pi/UltrasonicCap/capture.jpg')
 
             mylcd.lcd_display_string('      STANDBY       ', 4)
             switch_active = True

@@ -1,11 +1,3 @@
-import pygame
-import sys
-from pygame.locals import *
-import pygame.camera
-pygame.init()
-pygame.camera.init()
-cam = pygame.camera.Camera("/dev/video0", (352, 288))
-cam.start()
-image = cam.get_image()
-pygame.image.save(image, '/tmp/101.bmp')
-cam.stop()
+import os
+# FSWEBCAM -r (resolution) -s (Skip - for errors) - https://www.mankier.com/1/fswebcam
+os.system('fswebcam -r 1920x1080 -S 3 --jpeg 92 --save /home/pi/UltrasonicCap/capture.jpg')
