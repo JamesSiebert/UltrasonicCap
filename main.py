@@ -95,7 +95,7 @@ def play_sound(type, dist):
         else:
             vol = dist*50
         pygame.mixer.Sound.play(ping_sound).set_volume(0, vol)
-        
+
     elif type == 'photo':
         pygame.mixer.Sound.play(photo_sound)
     elif type == 'ping':
