@@ -27,8 +27,8 @@ bTrig = 1
 bEcho = 1
 lTrig = 24
 lEcho = 27
-switch1 = 16
-switch2 = 20
+switch1 = 20
+switch2 = 16
 
 # Front Ultrasonic
 # GPIO.setup(fTrig, GPIO.OUT)  # Trig
