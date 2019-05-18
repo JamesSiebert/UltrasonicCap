@@ -4,7 +4,7 @@ import time
 # Project UltrasonicCap
 
 # Pi
-localDir = '/home/pi/UltrasonicCap'
+localDir = '/home/pi/UltrasonicCap/'
 
 git = 'https://github.com/JamesSiebert/UltrasonicCap.git'
 push_and_pull = False
@@ -18,12 +18,9 @@ else:
 
 # Pull Command
 if command == 'pull':
-    print('Git Pull Started')
-    # os.system("cd " + localDir)
-    os.system("rm /home/pi/UltrasonicCap/*")
-    os.system("git clone https://github.com/JamesSiebert/UltrasonicCap.git")
-    # os.system("git pull origin master")
-    # os.system("git fetch --all")
+    print('Git Wipe and clone Started')
+    os.system("rmdir /home/pi/UltrasonicCap")
+    os.system("git clone" + git + localDir)
     os.system("sudo chmod -R 777 ./")
     print('Git Pull Complete & perms 777')
 
