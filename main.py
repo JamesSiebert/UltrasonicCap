@@ -5,6 +5,9 @@ import RPi.GPIO as GPIO
 import time
 import pygame
 
+# Pi setup
+loop = True
+
 # Pi Board Setup
 GPIO.setmode(GPIO.BCM)
 
