@@ -62,7 +62,7 @@ def get_distance(trig, echo):
 
     # Ensure that the sensor has settled down before read
     GPIO.output(trig, False)
-    time.sleep(2)
+    time.sleep(0.2)
 
     # START OF READ PROCESS
 
@@ -93,8 +93,8 @@ def play_sound(type, dist):
         if dist > max_ping_dist:
             vol = 0.01
         else:
-            vol = dist*50
-        pygame.mixer.Sound.play(ping_sound).set_volume(0, vol)
+            vol = dist*0.5
+        pygame.mixer.Sound.play(ping_sound).set_volume(0, (1 - vol))
 
     elif type == 'photo':
         pygame.mixer.Sound.play(photo_sound)
