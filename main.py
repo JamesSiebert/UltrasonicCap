@@ -3,13 +3,14 @@ import I2C_LCD_driver
 # import UltrasonicSensor
 import RPi.GPIO as GPIO
 import time
+import pygame
 
 # Pi Board Setup
 GPIO.setmode(GPIO.BCM)
 
 # LCD
 mylcd = I2C_LCD_driver.lcd()
-
+mylcd.lcd_display_string("BOOT UP...", 1)
 
 # GPIO Pin Setup
 fTrig = 1
@@ -45,13 +46,11 @@ GPIO.setup(switch2, GPIO.IN)  #Option 2
 # GPIO.setup(switch1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  #Option 1
 # GPIO.setup(switch2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  #Option 2
 
-
-
-
-
-
-
-
+# PyGame Sounds Setup
+pygame.init()
+ping_sound = pygame.mixer.Sound("crash.wav")
+photo_sound = pygame.mixer.Sound("crash.wav")
+nav_sound = pygame.mixer.Sound("crash.wav")
 
 def get_distance(trig, echo):
     pulse_start = 0
@@ -84,11 +83,13 @@ def get_distance(trig, echo):
 
     return distance
 
+def play_sound(type):
 
 
 
 
 
-mylcd.lcd_display_string("Hello World!", 1)
+
+
 
 GPIO.cleanup()
