@@ -112,13 +112,14 @@ def ping_all():
     dist_b = get_distance(rTrig, rEcho)
     dist_l = get_distance(lTrig, lEcho)
 
+    # Output info
+    print(str(dist_l) + 'cm | ' + str(dist_r) + 'cm')
+    mylcd.lcd_display_string(str(dist_l) + 'cm | ' + str(dist_r) + 'cm', 3)
     play_sound('ping', dist_to_vol(dist_l), dist_to_vol(dist_r))
 
 
 while loop:
     ping_all()
     time.sleep(1)
-    print(get_distance(rTrig, rEcho))
-    mylcd.lcd_display_string(str(get_distance(rTrig, rEcho)), 1)
 
 GPIO.cleanup()
