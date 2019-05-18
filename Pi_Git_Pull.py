@@ -20,6 +20,7 @@ else:
 if command == 'pull':
     print('Git Pull Started')
     # os.system("cd " + localDir)
+    os.system("rm /home/pi/UltrasonicCap/*")
     os.system("git pull origin master")
     # os.system("git fetch --all")
     os.system("sudo chmod -R 777 ./")
