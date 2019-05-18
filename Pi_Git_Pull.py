@@ -21,7 +21,8 @@ if command == 'pull':
     print('Git Pull Started')
     # os.system("cd " + localDir)
     os.system("git pull origin master")
-    print('Git Pull Complete')
+    os.system("sudo chmod -R 777 ./")
+    print('Git Pull Complete & perms 777')
 
 # Push Command
 if command == 'push':

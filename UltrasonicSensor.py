@@ -2,15 +2,19 @@ import RPi.GPIO as GPIO
 import time
 GPIO.setmode(GPIO.BCM)
 
-class IPAManager:
-    def __init__(self, trig, echo):
+
+class Ultrasonic:
+    def __init__(self):
+        self.ipa_dict = {}
+        self.trig = 0
+        self.echo = 0
+
+    def setup(self, trig, echo):
         GPIO.setup(trig, GPIO.OUT)
         GPIO.setup(echo, GPIO.IN)
 
-        self.ipa_dict = {}
         self.trig = trig
         self.echo = echo
-
 
     def get_distance(self):
         pulse_start = 0
