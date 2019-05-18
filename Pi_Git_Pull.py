@@ -18,11 +18,10 @@ else:
 
 # Pull Command
 if command == 'pull':
-    print('Git Wipe and clone Started')
-    os.system("rmdir /home/pi/UltrasonicCap")
-    os.system("git clone" + git + localDir)
-    os.system("sudo chmod -R 777 ./")
-    print('Git Pull Complete & perms 777')
+    print('Git pullStarted')
+    os.system("git pull origin master")
+    # os.system("sudo chmod -R 777 ./")
+    print('Git Pull Complete')
 
 # Push Command
 if command == 'push':
