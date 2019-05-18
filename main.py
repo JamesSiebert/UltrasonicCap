@@ -93,5 +93,12 @@ def play_sound(type):
         pygame.mixer.Sound.play(nav_sound)
 
 
+while loop:
+    play_sound('ping')
+    time.sleep(1)
+    print(get_distance(rTrig, rEcho))
+    mylcd.lcd_display_string(str(get_distance(rTrig, rEcho)), 1)
+
+
 
 GPIO.cleanup()
