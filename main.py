@@ -6,8 +6,9 @@ import time
 import pygame
 
 # Pi setup
-loop = True
 max_ping_dist = 200  # measured in cm
+switch_active = True
+
 
 # Pi Board Setup
 GPIO.setmode(GPIO.BCM)
@@ -117,8 +118,37 @@ def ping_all():
     mylcd.lcd_display_string(str(dist_l) + 'cm | ' + str(dist_r) + 'cm', 3)
     play_sound('ping', dist_to_vol(dist_l), dist_to_vol(dist_r))
 
+def check_inputs():
+global switch_active
 
-while loop:
+if switch_active:
+    if GPIO.input(switch1) == GPIO.HIGH:
+        switch_active = False
+        print("Switch 1 pressed - Capture Photo")
+        mylcd.lcd_display_string('Capture Photo', 4)
+
+        time.sleep(2)
+
+        mylcd.lcd_display_string('      STANDBY       ', 4)
+        switch_active = True
+
+    if GPIO.input(switch2) == GPIO.HIGH:
+        switch_active = False
+        print("Switch 2 pressed - Access Compass")
+        mylcd.lcd_display_string('Compass - N 11 deg', 4)
+
+        time.sleep(2)
+
+        mylcd.lcd_display_string('      STANDBY       ', 4)
+        switch_active = True
+
+
+
+
+
+while True:
+
+    check_inputs()
     ping_all()
     time.sleep(1)
 
