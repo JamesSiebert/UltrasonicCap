@@ -93,8 +93,8 @@ def play_sound(type, dist):
         if dist > max_ping_dist:
             vol = 0.01
         else:
-            vol = dist*0.5
-        pygame.mixer.Sound.play(ping_sound).set_volume(0, (1 - vol))
+            vol = 1 - (dist*0.5)
+        pygame.mixer.Sound.play(ping_sound).set_volume(0, vol)
         print('vol= ' + str(1-vol))
 
     elif type == 'photo':
