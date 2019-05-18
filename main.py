@@ -48,9 +48,9 @@ GPIO.setup(switch2, GPIO.IN)  #Option 2
 
 # PyGame Sounds Setup
 pygame.init()
-ping_sound = pygame.mixer.Sound("crash.wav")
-photo_sound = pygame.mixer.Sound("crash.wav")
-nav_sound = pygame.mixer.Sound("crash.wav")
+ping_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
+photo_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
+nav_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
 
 def get_distance(trig, echo):
     pulse_start = 0
