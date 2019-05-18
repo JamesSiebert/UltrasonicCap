@@ -83,12 +83,14 @@ def get_distance(trig, echo):
 
     return distance
 
+
 def play_sound(type):
-
-
-
-
-
+    if type == 'ping':
+        pygame.mixer.Sound.play(ping_sound)
+    elif type == 'photo':
+        pygame.mixer.Sound.play(photo_sound)
+    elif type == 'ping':
+        pygame.mixer.Sound.play(nav_sound)
 
 
 
