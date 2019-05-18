@@ -7,6 +7,7 @@ import pygame
 
 # Pi setup
 loop = True
+max_ping_dist = 2
 
 # Pi Board Setup
 GPIO.setmode(GPIO.BCM)
@@ -87,9 +88,14 @@ def get_distance(trig, echo):
     return distance
 
 
-def play_sound(type):
+def play_sound(type, dist):
     if type == 'ping':
-        pygame.mixer.Sound.play(ping_sound)
+        if dist > max_ping_dist:
+            vol = 0.01
+        else:
+            vol = dist*50
+        pygame.mixer.Sound.play(ping_sound).set_volume(0, vol)
+        
     elif type == 'photo':
         pygame.mixer.Sound.play(photo_sound)
     elif type == 'ping':
@@ -97,7 +103,10 @@ def play_sound(type):
 
 
 while loop:
-    play_sound('ping')
+
+
+    play_sound('ping', get_distance(rTrig, rEcho))
+
     time.sleep(1)
     print(get_distance(rTrig, rEcho))
     mylcd.lcd_display_string(str(get_distance(rTrig, rEcho)), 1)
