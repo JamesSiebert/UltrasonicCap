@@ -7,7 +7,7 @@ import pygame
 
 # Pi setup
 loop = True
-max_ping_dist = 2
+max_ping_dist = 200     # measured in cm
 
 # Pi Board Setup
 GPIO.setmode(GPIO.BCM)
@@ -90,10 +90,11 @@ def get_distance(trig, echo):
 
 def play_sound(type, dist):
     if type == 'ping':
+        print('init_dist=' + str(dist))
         if dist > max_ping_dist:
             vol = 0.01
         else:
-            vol = 1 - (dist*0.5)
+            vol = 1 - (dist*0.005)
         pygame.mixer.Sound.play(ping_sound).set_volume(0, vol)
         print('vol= ' + str(1-vol))
 
