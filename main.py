@@ -29,19 +29,19 @@ switch2 = 20
 
 # Front Ultrasonic
 # GPIO.setup(fTrig, GPIO.OUT)  # Trig
-# GPIO.setup(fTrig, GPIO.IN)   # Echo
+# GPIO.setup(fEcho, GPIO.IN)   # Echo
 
 # Right Ultrasonic
 GPIO.setup(rTrig, GPIO.OUT)  # Trig
-GPIO.setup(rTrig, GPIO.IN)   # Echo
+GPIO.setup(rEcho, GPIO.IN)   # Echo
 
 # Back Ultrasonic
 # GPIO.setup(bTrig, GPIO.OUT)  # Trig
-# GPIO.setup(bTrig, GPIO.IN)   # Echo
+# GPIO.setup(bEcho, GPIO.IN)   # Echo
 
 # Left Ultrasonic
 GPIO.setup(lTrig, GPIO.OUT)  # Trig
-GPIO.setup(lTrig, GPIO.IN)   # Echo
+GPIO.setup(lEcho, GPIO.IN)   # Echo
 
 # Switch
 GPIO.setup(switch1, GPIO.IN)  #Option 1
