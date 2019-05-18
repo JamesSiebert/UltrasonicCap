@@ -7,7 +7,7 @@ import pygame
 
 # Pi setup
 loop = True
-max_ping_dist = 200     # measured in cm
+max_ping_dist = 200  # measured in cm
 
 # Pi Board Setup
 GPIO.setmode(GPIO.BCM)
@@ -34,7 +34,7 @@ switch2 = 20
 
 # Right Ultrasonic
 GPIO.setup(rTrig, GPIO.OUT)  # Trig
-GPIO.setup(rEcho, GPIO.IN)   # Echo
+GPIO.setup(rEcho, GPIO.IN)  # Echo
 
 # Back Ultrasonic
 # GPIO.setup(bTrig, GPIO.OUT)  # Trig
@@ -42,11 +42,11 @@ GPIO.setup(rEcho, GPIO.IN)   # Echo
 
 # Left Ultrasonic
 GPIO.setup(lTrig, GPIO.OUT)  # Trig
-GPIO.setup(lEcho, GPIO.IN)   # Echo
+GPIO.setup(lEcho, GPIO.IN)  # Echo
 
 # Switch
-GPIO.setup(switch1, GPIO.IN)  #Option 1
-GPIO.setup(switch2, GPIO.IN)  #Option 2
+GPIO.setup(switch1, GPIO.IN)  # Option 1
+GPIO.setup(switch2, GPIO.IN)  # Option 2
 # GPIO.setup(switch1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  #Option 1
 # GPIO.setup(switch2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  #Option 2
 
@@ -55,6 +55,7 @@ pygame.init()
 ping_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
 photo_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
 nav_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
+
 
 def get_distance(trig, echo):
     pulse_start = 0
@@ -114,22 +115,10 @@ def ping_all():
     play_sound('ping', dist_to_vol(dist_l), dist_to_vol(dist_r))
 
 
-
-
-
-
-
-
-
 while loop:
-
-
-    play_sound('ping', get_distance(rTrig, rEcho))
-
+    ping_all()
     time.sleep(1)
     print(get_distance(rTrig, rEcho))
     mylcd.lcd_display_string(str(get_distance(rTrig, rEcho)), 1)
-
-
 
 GPIO.cleanup()
