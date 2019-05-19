@@ -110,11 +110,11 @@ def get_compass():
     return movement
 
 
-def power_save_mode(active):
+def power_save_mode(active, move_counter):
     if active:
         mylcd.lcd_display_string('-- POWER SAVE ON -- ', 2)
     else:
-        mylcd.lcd_display_string('                    ', 2)
+        mylcd.lcd_display_string(str(move_counter).zfill(3) + '                 ', 2)
 
 
 def is_moving(movement):
@@ -143,10 +143,10 @@ def is_moving(movement):
 
     # if the device has been static for x cycles
     if move_counter >= max_count:
-        power_save_mode(True)
+        power_save_mode(True, move_counter)
         return 'POWER SAVE ON'
     else:
-        power_save_mode(False)
+        power_save_mode(False, move_counter)
         return 'POWER SAVE OFF - Standby Count = ' + str(move_counter)
 
 
