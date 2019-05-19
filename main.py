@@ -16,29 +16,29 @@ GPIO.setmode(GPIO.BCM)
 mylcd = I2C_LCD_driver.lcd()
 mylcd.lcd_display_string("BOOT UP...", 1)
 
-# GPIO Pin Setup Declaration
-fTrig = 1
-fEcho = 1
+# GPIO Pin Setup Declaration (white TRIG | red ECHO(resistor))
+fTrig = 24
+fEcho = 27
 rTrig = 5
 rEcho = 12
-bTrig = 1
-bEcho = 1
-lTrig = 24
-lEcho = 27
+bTrig = 6
+bEcho = 13
+lTrig = 17
+lEcho = 18
 switch1 = 20
 switch2 = 16
 
 # Front Ultrasonic
-# GPIO.setup(fTrig, GPIO.OUT)  # Trig
-# GPIO.setup(fEcho, GPIO.IN)   # Echo
+GPIO.setup(fTrig, GPIO.OUT)  # Trig
+GPIO.setup(fEcho, GPIO.IN)   # Echo
 
 # Right Ultrasonic
 GPIO.setup(rTrig, GPIO.OUT)  # Trig
 GPIO.setup(rEcho, GPIO.IN)  # Echo
 
 # Back Ultrasonic
-# GPIO.setup(bTrig, GPIO.OUT)  # Trig
-# GPIO.setup(bEcho, GPIO.IN)   # Echo
+GPIO.setup(bTrig, GPIO.OUT)  # Trig
+GPIO.setup(bEcho, GPIO.IN)   # Echo
 
 # Left Ultrasonic
 GPIO.setup(lTrig, GPIO.OUT)  # Trig
@@ -118,17 +118,17 @@ def dist_to_vol(dist):
 
 
 def ping_all():
-    # dist_f = get_distance(fTrig, fEcho)
+    dist_f = get_distance(fTrig, fEcho)
     dist_r = get_distance(rTrig, rEcho)
-    # dist_b = get_distance(bTrig, bEcho)
+    dist_b = get_distance(bTrig, bEcho)
     dist_l = get_distance(lTrig, lEcho)
 
     # Output info
     print(str(dist_l) + 'cm | ' + str(dist_r) + 'cm')
     mylcd.lcd_display_string(str(dist_l) + 'cm | ' + str(dist_r) + 'cm', 3)
     play_sound('pingLR', dist_to_vol(dist_l), dist_to_vol(dist_r))
-    # play_sound('pingF', dist_to_vol(dist_f), dist_to_vol(dist_f))
-    # play_sound('pingB', dist_to_vol(dist_b), dist_to_vol(dist_b))
+    play_sound('pingF', dist_to_vol(dist_f), dist_to_vol(dist_f))
+    play_sound('pingB', dist_to_vol(dist_b), dist_to_vol(dist_b))
 
 def check_inputs():
     global switch_active
