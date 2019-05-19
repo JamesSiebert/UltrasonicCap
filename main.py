@@ -48,8 +48,6 @@ GPIO.setup(lEcho, GPIO.IN)  # Echo
 # Switch
 GPIO.setup(switch1, GPIO.IN)  # Option 1
 GPIO.setup(switch2, GPIO.IN)  # Option 2
-# GPIO.setup(switch1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  #Option 1
-# GPIO.setup(switch2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  #Option 2
 
 # PyGame Sounds Setup
 pygame.init()
@@ -70,28 +68,6 @@ bus = smbus.SMBus(1)
 # Select Control register, 0x10(16)
 bus.write_byte_data(0x0E, 0x10, 0x01)
 time.sleep(0.5)
-
-# # MAG3110 I2C address 0x0E
-# # Read data back from 0x01(1), 6 bytes
-# data = bus.read_i2c_block_data(0x0E, 0x01, 6)
-#
-# # Convert the data
-# xMag = data[0] * 256 + data[1]
-# if xMag > 32767:
-#     xMag -= 65536
-#
-# yMag = data[2] * 256 + data[3]
-# if yMag > 32767:
-#     yMag -= 65536
-#
-# zMag = data[4] * 256 + data[5]
-# if zMag > 32767:
-#     zMag -= 65536
-#
-# # Output data
-# print("X-Axis : %d" % xMag)
-# print("Y-Axis : %d" % yMag)
-# print("Z-Axis : %d" % zMag)
 
 
 def compass_init():
@@ -133,6 +109,13 @@ def get_compass():
     return movement
 
 
+def power_save_mode(active):
+    if active:
+        mylcd.lcd_display_string('-- POWER SAVE ON -- ', 2)
+    else:
+        mylcd.lcd_display_string('                    ', 2)
+
+
 def is_moving(movement):
     """ This function relates to the compass, it uses the compas readings to determine if the device has moved
     if the device hasn't moved in x cycles a power save mode will be triggered."""
@@ -159,8 +142,10 @@ def is_moving(movement):
 
     # if the device has been static for x cycles
     if move_counter >= max_count:
+        power_save_mode(True)
         return 'POWER SAVE ON'
     else:
+        power_save_mode(False)
         return 'POWER SAVE OFF - Standby Count = ' + str(move_counter)
 
 
@@ -262,7 +247,7 @@ def check_inputs():
         if GPIO.input(switch2) == GPIO.HIGH:
             switch_active = False
             print("Switch 2 pressed - Access Compass")
-            mylcd.lcd_display_string('Compass - N 11 deg', 4)
+            mylcd.lcd_display_string('Compass - N 11Deg   ', 4)
 
             time.sleep(2)
 
