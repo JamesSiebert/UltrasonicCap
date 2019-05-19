@@ -1,24 +1,22 @@
-# This is the main script
-import I2C_LCD_driver
-# import UltrasonicSensor
-import RPi.GPIO as GPIO
-import time
-import pygame
-import os
+import I2C_LCD_driver       # Blue LCD Controller
+import RPi.GPIO as GPIO     # GPIO import
+import time                 # Import time module
+import pygame               # import pygame for audio
+import os                   # Import OS for terminal commands (webcam)
+
 
 # Pi setup
 max_ping_dist = 200  # measured in cm
 switch_active = True
 
-
 # Pi Board Setup
 GPIO.setmode(GPIO.BCM)
 
-# LCD
+# LCD Setup
 mylcd = I2C_LCD_driver.lcd()
 mylcd.lcd_display_string("BOOT UP...", 1)
 
-# GPIO Pin Setup
+# GPIO Pin Setup Declaration
 fTrig = 1
 fEcho = 1
 rTrig = 5
@@ -55,7 +53,11 @@ GPIO.setup(switch2, GPIO.IN)  # Option 2
 # PyGame Sounds Setup
 pygame.init()
 ping_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
-photo_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
+front_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/front.wav")
+left_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/left.wav")
+back_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/back.wav")
+right_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/right.wav")
+photo_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/photo.wav")
 nav_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
 
 
@@ -92,9 +94,16 @@ def get_distance(trig, echo):
 
 
 def play_sound(type, volL, volR):
-    if type == 'ping':
+    if type == 'pingLR':
         pygame.mixer.Sound.play(ping_sound).set_volume(volL, volR)
-
+    elif type == 'pingL':
+        pygame.mixer.Sound.play(left_sound).set_volume(volL, volR)
+    elif type == 'pingR':
+        pygame.mixer.Sound.play(right_sound).set_volume(volL, volR)
+    elif type == 'pingF':
+        pygame.mixer.Sound.play(front_sound).set_volume(volL, volR)
+    elif type == 'pingB':
+        pygame.mixer.Sound.play(back_sound).set_volume(volL, volR)
     elif type == 'photo':
         pygame.mixer.Sound.play(photo_sound)
     elif type == 'ping':
@@ -109,15 +118,17 @@ def dist_to_vol(dist):
 
 
 def ping_all():
-    dist_f = get_distance(rTrig, rEcho)
+    # dist_f = get_distance(fTrig, fEcho)
     dist_r = get_distance(rTrig, rEcho)
-    dist_b = get_distance(rTrig, rEcho)
+    # dist_b = get_distance(bTrig, bEcho)
     dist_l = get_distance(lTrig, lEcho)
 
     # Output info
     print(str(dist_l) + 'cm | ' + str(dist_r) + 'cm')
     mylcd.lcd_display_string(str(dist_l) + 'cm | ' + str(dist_r) + 'cm', 3)
-    play_sound('ping', dist_to_vol(dist_l), dist_to_vol(dist_r))
+    play_sound('pingLR', dist_to_vol(dist_l), dist_to_vol(dist_r))
+    # play_sound('pingF', dist_to_vol(dist_f), dist_to_vol(dist_f))
+    # play_sound('pingB', dist_to_vol(dist_b), dist_to_vol(dist_b))
 
 def check_inputs():
     global switch_active
