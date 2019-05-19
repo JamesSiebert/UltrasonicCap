@@ -58,7 +58,7 @@ left_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/left.wav")
 back_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/back.wav")
 right_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/right.wav")
 photo_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/photo.wav")
-nav_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
+nav_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/nav.wav")
 
 # Compass Setup
 last_movement = 100
