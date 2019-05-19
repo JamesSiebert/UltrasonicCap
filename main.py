@@ -63,6 +63,7 @@ nav_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
 # Compass Setup
 last_movement = 100
 move_counter = 0
+max_static = 100
 bus = smbus.SMBus(1)
 
 # MAG3110 I2C address 0x0E
@@ -127,11 +128,11 @@ def is_moving(movement):
     # The counter which determines if to enter sleep mode
     global move_counter
 
+    # The number of successful cycles it takes to enter power save mode
+    global max_static
+
     # The error variance in detecting a static device
     variance = 100
-
-    # The number of successful cycles it takes to enter power save mode
-    max_count = 100
 
     # if the device moves
     if (movement > (last_movement + variance)) or (movement < (last_movement - variance)):
