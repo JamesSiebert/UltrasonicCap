@@ -197,9 +197,9 @@ def play_sound(type, volL, volR):
     elif type == 'pingB':
         pygame.mixer.Sound.play(back_sound).set_volume(volL, volR)
     elif type == 'photo':
-        pygame.mixer.Sound.play(photo_sound)
-    elif type == 'ping':
-        pygame.mixer.Sound.play(nav_sound)
+        pygame.mixer.Sound.play(photo_sound).set_volume(volL, volR)
+    elif type == 'nav':
+        pygame.mixer.Sound.play(nav_sound).set_volume(volL, volR)
 
 
 def dist_to_vol(dist):
@@ -239,17 +239,22 @@ def check_inputs():
         if GPIO.input(switch1) == GPIO.HIGH:
             switch_active = False
             print("Switch 1 pressed - Capture Photo")
+            play_sound('photo', 50, 50)
             mylcd.lcd_display_string('Capture Photo', 4)
 
             os.system('fswebcam -r 1920x1080 -S 3 --jpeg 92 --save /home/pi/UltrasonicCap/capture.jpg')
 
+            mylcd.lcd_display_string('    IMG CAPTURED    ', 4)
+            time.sleep(1)
             mylcd.lcd_display_string('      STANDBY       ', 4)
             switch_active = True
 
         if GPIO.input(switch2) == GPIO.HIGH:
             switch_active = False
             print("Switch 2 pressed - Access Compass")
+            play_sound('nav', 50, 50)
             mylcd.lcd_display_string('Compass - N 11Deg   ', 4)
+
 
             time.sleep(2)
 
