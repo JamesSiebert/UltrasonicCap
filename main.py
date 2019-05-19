@@ -143,7 +143,7 @@ def is_moving(movement):
     last_movement = movement
 
     # if the device has been static for x cycles
-    if move_counter >= max_count:
+    if move_counter >= max_static:
         power_save_mode(True, move_counter)
         return 'POWER SAVE ON'
     else:
