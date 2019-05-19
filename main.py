@@ -61,10 +61,7 @@ right_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/right.wav")
 photo_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/photo.wav")
 nav_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
 
-
-
-
-
+# Compass Setup
 last_movement = 100
 move_counter = 0
 bus = smbus.SMBus(1)
@@ -72,33 +69,33 @@ bus = smbus.SMBus(1)
 # MAG3110 I2C address 0x0E
 # Select Control register, 0x10(16)
 bus.write_byte_data(0x0E, 0x10, 0x01)
-
 time.sleep(0.5)
 
-# MAG3110 I2C address 0x0E
-# Read data back from 0x01(1), 6 bytes
-data = bus.read_i2c_block_data(0x0E, 0x01, 6)
-
-# Convert the data
-xMag = data[0] * 256 + data[1]
-if xMag > 32767:
-    xMag -= 65536
-
-yMag = data[2] * 256 + data[3]
-if yMag > 32767:
-    yMag -= 65536
-
-zMag = data[4] * 256 + data[5]
-if zMag > 32767:
-    zMag -= 65536
-
-# Output data
-print("X-Axis : %d" % xMag)
-print("Y-Axis : %d" % yMag)
-print("Z-Axis : %d" % zMag)
+# # MAG3110 I2C address 0x0E
+# # Read data back from 0x01(1), 6 bytes
+# data = bus.read_i2c_block_data(0x0E, 0x01, 6)
+#
+# # Convert the data
+# xMag = data[0] * 256 + data[1]
+# if xMag > 32767:
+#     xMag -= 65536
+#
+# yMag = data[2] * 256 + data[3]
+# if yMag > 32767:
+#     yMag -= 65536
+#
+# zMag = data[4] * 256 + data[5]
+# if zMag > 32767:
+#     zMag -= 65536
+#
+# # Output data
+# print("X-Axis : %d" % xMag)
+# print("Y-Axis : %d" % yMag)
+# print("Z-Axis : %d" % zMag)
 
 
 def compass_init():
+    """ The init process for the compass"""
     global bus
     print('Compass Init')
     bus = smbus.SMBus(1)
@@ -109,6 +106,7 @@ def compass_init():
 
 
 def get_compass():
+    """Reads, converts and returns the compass raw data into usable values"""
     # MAG3110 I2C address 0x0E
     # Read data back from 0x01(1), 6 bytes
     data = bus.read_i2c_block_data(0x0E, 0x01, 6)
@@ -136,41 +134,34 @@ def get_compass():
 
 
 def is_moving(movement):
+    """ This function relates to the compass, it uses the compas readings to determine if the device has moved
+    if the device hasn't moved in x cycles a power save mode will be triggered."""
+
+    # The previous movement value
     global last_movement
+
+    # The counter which determines if to enter sleep mode
     global move_counter
 
+    # The error variance in detecting a static device
     variance = 100
+
+    # The number of successful cycles it takes to enter power save mode
     max_count = 100
 
+    # if the device moves
     if (movement > (last_movement + variance)) or (movement < (last_movement - variance)):
-        # print('Movement Detected')
         move_counter = 0
     else:
         move_counter = move_counter + 1
-        # print('No Movement - Count = ' + str(move_counter))
 
     last_movement = movement
 
+    # if the device has been static for x cycles
     if move_counter >= max_count:
         return 'POWER SAVE ON'
     else:
         return 'POWER SAVE OFF - Standby Count = ' + str(move_counter)
-
-
-while True:
-
-    time.sleep(1)
-    try:
-        print(get_compass())
-        print(is_moving(get_compass()))
-    except:
-        print('Compass Error - If persists power compass off and on & reboot script')
-
-
-
-
-
-
 
 
 def get_distance(trig, echo):
@@ -281,7 +272,17 @@ def check_inputs():
 
 mylcd.lcd_display_string("----- VIS 3000 ------", 1)
 """ The main program loop. """
+
+compass_init()
+
 while True:
+
+    # Traps for unreliable compass sensor errors
+    try:
+        print(get_compass())
+        print(is_moving(get_compass()))
+    except:
+        print('Compass Error - If persists power compass off and on & reboot script')
 
     check_inputs()
     ping_all()
