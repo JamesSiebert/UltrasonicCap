@@ -12,6 +12,7 @@ loop_frequency = 1
 
 # Pi Board Setup
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 # LCD Setup
 mylcd = I2C_LCD_driver.lcd()
