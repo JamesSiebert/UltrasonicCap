@@ -8,13 +8,14 @@ import os                   # Import OS for terminal commands (webcam)
 # Pi setup
 max_ping_dist = 200  # measured in cm
 switch_active = True
+loop_frequency = 1
 
 # Pi Board Setup
 GPIO.setmode(GPIO.BCM)
 
 # LCD Setup
 mylcd = I2C_LCD_driver.lcd()
-mylcd.lcd_display_string("BOOT UP...", 1)
+mylcd.lcd_display_string("BOOTING UP...", 1)
 
 # GPIO Pin Setup Declaration (white TRIG | red ECHO(resistor))
 fTrig = 24
@@ -62,6 +63,7 @@ nav_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
 
 
 def get_distance(trig, echo):
+    """ This function is responsible for returning the distance for each ultrasonic."""
     pulse_start = 0
     pulse_end = 0
 
@@ -94,6 +96,7 @@ def get_distance(trig, echo):
 
 
 def play_sound(type, volL, volR):
+    """ This handles the sound playing though the use of PyGame. """
     if type == 'pingLR':
         pygame.mixer.Sound.play(ping_sound).set_volume(volL, volR)
     elif type == 'pingL':
@@ -111,6 +114,8 @@ def play_sound(type, volL, volR):
 
 
 def dist_to_vol(dist):
+    """ This function handles the distance to volume percentage conversion.
+    max_ping_dist refers to the furthest distance the unit should report items."""
     if dist > max_ping_dist:
         return 0.01
     else:
@@ -118,24 +123,27 @@ def dist_to_vol(dist):
 
 
 def ping_all():
+    """ This function is used to handle pinging all directions at once. """
+
+    # Gets the rounded distance for each Ultrasonic direction
     dist_f = round(get_distance(fTrig, fEcho))
     dist_r = round(get_distance(rTrig, rEcho))
     dist_b = round(get_distance(bTrig, bEcho))
     dist_l = round(get_distance(lTrig, lEcho))
 
-    print('F ' + str(dist_f))
-    print('R ' + str(dist_r))
-    print('B ' + str(dist_b))
-    print('L ' + str(dist_l))
+    # Console output
+    print('F ' + str(dist_f) + 'cm | R ' + str(dist_r) + 'cm | B ' + str(dist_b) + 'cm | L ' + str(dist_l) + 'cm')
 
-    # Output info
-    print(str(dist_l) + 'cm | ' + str(dist_r) + 'cm')
-    mylcd.lcd_display_string(str(dist_l) + 'cm | ' + str(dist_r) + 'cm', 3)
+    # LCD Output distances to line 3 (format as XXXX XXXX XXXX XXXX )
+    mylcd.lcd_display_string(str(dist_f).zfill(4) + ' ' + str(dist_r).zfill(4) + ' ' + str(dist_b).zfill(4) + ' ' + str(dist_r).zfill(4) + ' ', 3)
+
+    # Play Sounds
     play_sound('pingLR', dist_to_vol(dist_l), dist_to_vol(dist_r))
     play_sound('pingF', dist_to_vol(dist_f), dist_to_vol(dist_f))
     play_sound('pingB', dist_to_vol(dist_b), dist_to_vol(dist_b))
 
 def check_inputs():
+    """ This function is used to check for user inputs, in our case it is switch input 1 & 2. """
     global switch_active
 
     if switch_active:
@@ -160,13 +168,12 @@ def check_inputs():
             switch_active = True
 
 
-
-
-
+mylcd.lcd_display_string("----- VIS 3000 ------", 1)
+""" The main program loop. """
 while True:
 
     check_inputs()
     ping_all()
-    time.sleep(1)
+    time.sleep(loop_frequency)
 
 GPIO.cleanup()
