@@ -63,7 +63,7 @@ nav_sound = pygame.mixer.Sound("/home/pi/UltrasonicCap/ping.wav")
 # Compass Setup
 last_movement = 100
 move_counter = 0
-max_static = 100
+max_static = 20
 bus = smbus.SMBus(1)
 
 # MAG3110 I2C address 0x0E
