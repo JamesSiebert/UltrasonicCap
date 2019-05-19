@@ -21,10 +21,10 @@ fTrig = 24
 fEcho = 27
 rTrig = 5
 rEcho = 12
-bTrig = 6
-bEcho = 13
-lTrig = 17
-lEcho = 18
+bTrig = 17
+bEcho = 18
+lTrig = 6
+lEcho = 13
 switch1 = 20
 switch2 = 16
 
@@ -118,10 +118,15 @@ def dist_to_vol(dist):
 
 
 def ping_all():
-    dist_f = get_distance(fTrig, fEcho)
-    dist_r = get_distance(rTrig, rEcho)
-    dist_b = get_distance(bTrig, bEcho)
-    dist_l = get_distance(lTrig, lEcho)
+    dist_f = round(get_distance(fTrig, fEcho))
+    dist_r = round(get_distance(rTrig, rEcho))
+    dist_b = round(get_distance(bTrig, bEcho))
+    dist_l = round(get_distance(lTrig, lEcho))
+
+    print('F ' + str(dist_f))
+    print('R ' + str(dist_r))
+    print('B ' + str(dist_b))
+    print('L ' + str(dist_l))
 
     # Output info
     print(str(dist_l) + 'cm | ' + str(dist_r) + 'cm')
